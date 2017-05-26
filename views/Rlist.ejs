@@ -1,0 +1,35 @@
+<%- include header %>
+        <div class="container">
+            <div class="row">
+                <table class="table table-striped">
+                    <caption>可选择的床位</caption>
+                    <thead>
+                    <tr>
+                        <th>楼号</th>
+                        <th>层数</th>
+                        <th>房间号+床号</th>
+			
+                    </tr>
+                    </thead>
+                    <tbody>
+<% roomList.forEach(function(ret) {%>             
+                    <tr>
+
+                        <td><%= ret.Apartment %></td>
+
+                        <td><%= ret.Floor %></td>
+
+
+
+                        <td>
+                         <a href="/selected/<%= ret.RB %>"><%= ret.Room+'-'+ret.Bed %></a>
+                        </td>
+
+                    </tr>
+<% }); %>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+<%- include footer %>
