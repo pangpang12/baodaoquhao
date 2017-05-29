@@ -12,7 +12,15 @@ var url = require('url');
 var session = require('express-session');
 //get the access_token,code,then get the userid
 var app = express();
-
+// models
+var models = require('./models/models');//初始化  
+var config = models.config;models.orm.initialize(config, function(err, models) {
+    if(err) {
+        console.error('orm initialize failed.', err)
+        return;  
+    }  
+    app.models = models.collections;
+});
 var at = require('./wx_token/at.js');
 var token=at.access_token;
 setTimeout(r,4000);
@@ -184,6 +192,20 @@ app.get('/selected/:RB',function(req,res){
 		console.log(query.sql);
 	})	
 
+})
+
+//add process_query报道流程查询（lishuo）
+app.get('/test',function(req,res){
+    app.models.pro_query.findOne({stu_id:'1601210613'},function(err,allinfo){
+        if (err){
+            console.log(err);
+        }
+        console.log(allinfo);
+        res.render('test',{
+            title:'报道流程查询',
+            process:allinfo,
+        });
+    })
 })
 
 app.listen(3000,function(req,res){
