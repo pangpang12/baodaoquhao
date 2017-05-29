@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname,'public')));
 app.use(session({
         secret: '1234',
         name: 'mynode',
-        cookie: {maxAge:1000*60*20},
+        cookie: {maxAge:1000*60*60*24},
         resave: true,
         saveUninitialized: true
 }));
@@ -61,7 +61,8 @@ var pool = mysql.createPool({
 //var code;
 app.get('/',function(req,res){
 	console.log(req.url);
-	if (!req.session.No){
+	if (!req.session.Noi&&code!=url.parse(req.url,true).query.code){
+		//var 
 		var code = url.parse(req.url,true).query.code;
 		var link = 'https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token='+token+'&code='+code;
 		console.log(new Date()+' and the code is '+code+' Now getting the Number...');
@@ -95,7 +96,7 @@ app.get('/',function(req,res){
 })
 
 app.get('/Rselect',function(req,res){
-	console.log('The Student Number is: '+req.session.No);
+	console.log('The Student Number is: '+req.session.No+'The req is: '+req.sessionID);
 	pool.getConnection(function(err,connection){
 		if (err) throw err;
 		var query = connection.query('SELECT * FROM Student WHERE Number=?',req.session.No,function(err,ret){
@@ -174,11 +175,11 @@ app.get('/selected/:RB',function(req,res){
 			}
 
 			else{
-				connection.query('UPDATE Choose SET RN="'+req.session.No+'" WHERE RB=?',value.RB,function(err,ret){
+				connection.query('UPDATE Choose SET Notes="'+req.session.No+'" WHERE RB=?',value.RB,function(err,ret){
 					if (err) throw err;
 					console.log(ret);
 				});
-				connection.query('UPDATE Student SET Bed=? WHERE Number="'+req.session.No+'"',value.RB,function(err,ret){
+				connection.query('UPDATE Student SET RB=? WHERE Number="'+req.session.No+'"',value.RB,function(err,ret){
 					if (err) throw err;
 					console.log(ret);
 				});
@@ -195,19 +196,19 @@ app.get('/selected/:RB',function(req,res){
 })
 
 //add process_query报道流程查询（lishuo）
-app.get('/test',function(req,res){
+app.get('/process',function(req,res){
     app.models.pro_query.findOne({stu_id:'1601210613'},function(err,allinfo){
         if (err){
             console.log(err);
         }
         console.log(allinfo);
-        res.render('test',{
+        res.render('process',{
             title:'报道流程查询',
             process:allinfo,
         });
     })
 })
 
-app.listen(3000,function(req,res){
+app.listen(80,function(req,res){
 	console.log('app is running at port 3000');
 });
