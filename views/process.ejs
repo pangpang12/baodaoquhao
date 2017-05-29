@@ -1,0 +1,40 @@
+<%- include header%>
+    <div class="page">
+        <div class="page__hd">
+            <h3 class="page__title" align="center">报道流程查询</h1>
+
+        </div>
+        <div class="page__bd">
+
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <p>财务处</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <% if(process.finance=='Y'){ %>
+                            <font color="Green"><%= process.finance %></font>
+                        <% }else{ %>
+                            <font color="red"><%= process.finance %></font>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <p>学生处</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <% if(process.affair=='Y'){ %>
+                            <font color="Green"><%= process.affair %></font>
+                        <% }else{ %>
+                            <font color="red"><%= process.affair %></font>
+                        <% } %>
+                    </div>
+                </div>           
+            </div>
+        </div>
+        <div class="page__ft">
+            <a href="javascript:home()"><img src="./images/icon_footer_link.png" /></a>
+        </div>
+    </div>
+<%- include footer%>
