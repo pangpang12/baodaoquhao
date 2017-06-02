@@ -41,7 +41,7 @@ app.use(session({
         secret: '1234',
         name: 'mynode',
         cookie: {maxAge:1000*60*60*24},
-        resave: true,
+        resave: false,
         saveUninitialized: true
 }));
 
