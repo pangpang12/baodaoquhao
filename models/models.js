@@ -18,7 +18,7 @@ var connections = {
   // },
   mysql: {
     adapter: 'mysql',
-    url: 'mysql://root:lenovo88@localhost/query'  
+    url: 'mysql://mynode:123456@localhost/Room'  
   }
 };
 // 数据集合 
