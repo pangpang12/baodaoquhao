@@ -2,32 +2,43 @@
     <div class="page">
         <div class="page__hd">
             <h3 class="page__title" align="center">报道流程查询</h1>
-
         </div>
         <div class="page__bd">
-
+            <div class="weui-cells__title">请确保所有审查状态均为已审核</div>
             <div class="weui-cells">
                 <div class="weui-cell">
                     <div class="weui-cell__bd">
-                        <p>财务处</p>
+                        <p>资格审核状态</p>
                     </div>
                     <div class="weui-cell__ft">
-                        <% if(process.finance=='Y'){ %>
-                            <font color="Green"><%= process.finance %></font>
+                        <% if(obj.data.enrollcomplete=='1'){ %>
+                            <font color="Green">审核通过</font>
                         <% }else{ %>
-                            <font color="red"><%= process.finance %></font>
+                            <font color="red">审核未通过</font>
                         <% } %>
                     </div>
                 </div>
                 <div class="weui-cell">
                     <div class="weui-cell__bd">
-                        <p>学生处</p>
+                        <p>财务审核</p>
                     </div>
                     <div class="weui-cell__ft">
-                        <% if(process.affair=='Y'){ %>
-                            <font color="Green"><%= process.affair %></font>
+                        <% if(obj.data.financecomplete=='1'){ %>
+                            <font color="Green">审核通过</font>
                         <% }else{ %>
-                            <font color="red"><%= process.affair %></font>
+                            <font color="red">审核未通过</font>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <p>教务注册</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <% if(obj.data.jwbcomplete=='1'){ %>
+                            <font color="Green">审核通过</font>
+                        <% }else{ %>
+                            <font color="red">审核未通过</font>
                         <% } %>
                     </div>
                 </div>           

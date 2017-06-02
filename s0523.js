@@ -209,6 +209,20 @@ app.get('/process',function(req,res){
     })
 })
 
+const urll="https://api.mysspku.com/index.php/V2/Ssbd/getinfo?stuid=req.session.No&token="+token
+http.get(urll,(res)=>{
+    var html=""
+    var obj=""
+    res.on("data",(data)=>{
+        html+=data
+    })
+    res.on("end",()=>{
+        obj=JSON.parse(html)
+    })
+}).on("error",(e)=>{
+    console.log(`获取数据失败: ${e.message}`)
+})
+
 app.listen(80,function(req,res){
 	console.log('app is running at port 3000');
 });
