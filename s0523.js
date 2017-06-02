@@ -195,19 +195,33 @@ app.get('/selected/:RB',function(req,res){
 })
 
 //add process_query报道流程查询（lishuo）
-app.get('/test',function(req,res){
+app.get('/process',function(req,res){
     app.models.pro_query.findOne({stu_id:'1601210613'},function(err,allinfo){
         if (err){
             console.log(err);
         }
         console.log(allinfo);
-        res.render('test',{
+        res.render('process',{
             title:'报道流程查询',
             process:allinfo,
         });
     })
 })
 
-app.listen(3000,function(req,res){
-	console.log('app is running at port 3000');
+const urll="https://api.mysspku.com/index.php/V2/Ssbd/getinfo?stuid=req.session.No&token="+token
+http.get(urll,(res)=>{
+    var html=""
+    var obj=""
+    res.on("data",(data)=>{
+        html+=data
+    })
+    res.on("end",()=>{
+        obj=JSON.parse(html)
+    })
+}).on("error",(e)=>{
+    console.log(`获取数据失败: ${e.message}`)
+})
+
+app.listen(80,function(req,res){
+	console.log('app is running at port 80');
 });
