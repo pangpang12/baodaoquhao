@@ -11,7 +11,7 @@
                         <p>资格审核状态</p>
                     </div>
                     <div class="weui-cell__ft">
-                        <% if(obj.data.enrollcomplete=='1'){ %>
+                        <% if(enroll){ %>
                             <font color="Green">审核通过</font>
                         <% }else{ %>
                             <font color="red">审核未通过</font>
@@ -23,7 +23,7 @@
                         <p>财务审核</p>
                     </div>
                     <div class="weui-cell__ft">
-                        <% if(obj.data.financecomplete=='1'){ %>
+                        <% if(finance){ %>
                             <font color="Green">审核通过</font>
                         <% }else{ %>
                             <font color="red">审核未通过</font>
@@ -35,7 +35,7 @@
                         <p>教务注册</p>
                     </div>
                     <div class="weui-cell__ft">
-                        <% if(obj.data.jwbcomplete=='1'){ %>
+                        <% if(jwb){ %>
                             <font color="Green">审核通过</font>
                         <% }else{ %>
                             <font color="red">审核未通过</font>
@@ -43,9 +43,6 @@
                     </div>
                 </div>           
             </div>
-        </div>
-        <div class="page__ft">
-            <a href="javascript:home()"><img src="./images/icon_footer_link.png" /></a>
         </div>
     </div>
 <%- include footer%>

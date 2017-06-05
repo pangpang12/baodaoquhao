@@ -1,4 +1,4 @@
-////0523获取学号
+//0523获取学号
 "use strict"
 //加载依赖库
 var express = require('express');
@@ -12,6 +12,7 @@ var url = require('url');
 var session = require('express-session');
 //get the access_token,code,then get the userid
 var app = express();
+var obj,j,enroll,finance,jwb,enrollcomplete,financecomplete,jwbcomplete;
 // models
 //var models = require('./models/models');//初始化  
 //var config = models.config;models.orm.initialize(config, function(err, models) {
@@ -60,88 +61,89 @@ var pool = mysql.createPool({
 
 //var code;
 app.get('/',function(req,res){
-	console.log(req.url);
-	if (!req.session.No){
-		//var 
-		var code = url.parse(req.url,true).query.code;
-		var link = 'https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token='+token+'&code='+code;
-		console.log(new Date()+' and the code is '+code+' Now getting the Number...');
-		var hehe = https.get(link,function(nn){
-			var bodyChunks = '';
-			nn.on('data',function(chunk){
-				bodyChunks += chunk;
-			});
-			nn.on('end',function(){
-				var body = JSON.parse(bodyChunks);
-				console.log(body);
-				if (body.UserId) {
-					req.session.No = body.UserId;
-					console.log(req.session.No);
-//					res.render('website');
+    console.log(req.url);
+
+    if (!req.session.No){
+        //var 
+        var code = url.parse(req.url,true).query.code;
+        var link = 'https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token='+token+'&code='+code;
+        console.log(new Date()+' and the code is '+code+' Now getting the Number...');
+        var hehe = https.get(link,function(nn){
+            var bodyChunks = '';
+            nn.on('data',function(chunk){
+                bodyChunks += chunk;
+            });
+            nn.on('end',function(){
+                var body = JSON.parse(bodyChunks);
+                console.log(body);
+                if (body.UserId) {
+                    req.session.No = body.UserId;
+                    console.log(req.session.No);
+//                  res.render('website');
 ////////////////0603
-					pool.getConnection(function(err,connection){
-						if (err) throw err;
-						var query=connection.query('SELECT * FROM Student WHERE Number=?',req.session.No,function(err,ret){
-							if (err) throw err;
-							console.log(ret);
-							////
-							req.session.Gender=ret[0].Gender;
-							////
-							res.render('website',{
-								rb:ret[0].RB
-							});
-							connection.release();
-						})
-					})
+                    pool.getConnection(function(err,connection){
+                        if (err) throw err;
+                        var query=connection.query('SELECT * FROM Student WHERE Number=?',req.session.No,function(err,ret){
+                            if (err) throw err;
+                            console.log(ret);
+                            ////
+                            req.session.Gender=ret[0].Gender;
+                            ////
+                            res.render('website',{
+                                rb:ret[0].RB
+                            });
+                            connection.release();
+                        })
+                    })
 ////////////////0603
-				}else{
-					console.dir(body);
-				}
-			});
-		});
+                }else{
+                    console.dir(body);
+                }
+            });
+        });
 //为了获取学号我跟你拼了
-		console.log('The req is:'+req.sessionID+' and the Number is:'+req.session.No);
-	}else{
-	console.log('index  the req is:  '+req.sessionID+'the Number is:    '+req.session.No);
+        console.log('The req is:'+req.sessionID+' and the Number is:'+req.session.No);
+    }else{
+    console.log('index  the req is:  '+req.sessionID+'the Number is:    '+req.session.No);
 ////////////////////
-					pool.getConnection(function(err,connection){
-						if (err) throw err;
-						var query=connection.query('SELECT * FROM Student WHERE Number=?',req.session.No,function(err,ret){
-							if (err) throw err;
-							console.log(ret);
-							req.session.Gender=ret[0].Gender;
-							res.render('website',{
-								rb:ret[0].RB
-							});
-							connection.release();
-						})
-					})
+                    pool.getConnection(function(err,connection){
+                        if (err) throw err;
+                        var query=connection.query('SELECT * FROM Student WHERE Number=?',req.session.No,function(err,ret){
+                            if (err) throw err;
+                            console.log(ret);
+                            req.session.Gender=ret[0].Gender;
+                            res.render('website',{
+                                rb:ret[0].RB
+                            });
+                            connection.release();
+                        })
+                    })
 ////////////////////
-	}
+    }
 })
 
 app.get('/Rselect',function(req,res){
-	console.log('The Student Number is: '+req.session.No+'The req is: '+req.sessionID);
-	//pool.getConnection(function(err,connection){
-	//	if (err) throw err;
-	//	var query = connection.query('SELECT * FROM Student WHERE Number=?',req.session.No,function(err,ret){
-	//		if (err) throw err;
-	//		console.log(ret);
-	//		if (ret[0].RB){
-	//			var aa = '同学你已经选择了:'+ret[0].RB+'床位，不能更改';
-	//			connection.release();
-	//			//return res.redirect('/');
-	//			res.render('index0');
-	//		}else{
-	//		req.session.Gender = ret[0].Gender;
-	//		res.render('Rselect',{title:'hehe'});
-	//		connection.release();}
-	//	});
-	//	console.log(query.sql);
-	//});
-	res.render('Rselect',{
-		title:'选择宿舍'
-	});
+    console.log('The Student Number is: '+req.session.No+'The req is: '+req.sessionID);
+    //pool.getConnection(function(err,connection){
+    //  if (err) throw err;
+    //  var query = connection.query('SELECT * FROM Student WHERE Number=?',req.session.No,function(err,ret){
+    //      if (err) throw err;
+    //      console.log(ret);
+    //      if (ret[0].RB){
+    //          var aa = '同学你已经选择了:'+ret[0].RB+'床位，不能更改';
+    //          connection.release();
+    //          //return res.redirect('/');
+    //          res.render('index0');
+    //      }else{
+    //      req.session.Gender = ret[0].Gender;
+    //      res.render('Rselect',{title:'hehe'});
+    //      connection.release();}
+    //  });
+    //  console.log(query.sql);
+    //});
+    res.render('Rselect',{
+        title:'选择宿舍'
+    });
 
 })
 
@@ -186,70 +188,103 @@ app.get('/Rlist',function(req,res){
 })
 
 app.get('/selected/:RB',function(req,res){
-	console.log('床位选择中...');
-	pool.getConnection(function(err,connection){
-		if (err) throw err;
-		var value = {RB:req.params.RB};
-		var query = connection.query('SELECT Notes FROM Choose WHERE RB=?',value.RB,function(err,ret){
-			if (err) throw err;
-			console.log(ret);
-			if (ret[0].Notes){
-				connection.release();
-				return res.redirect('/Rlist',{
-					title:'没有抢到床位，请重新选择'
-				});
-			}
+    console.log('床位选择中...');
+    pool.getConnection(function(err,connection){
+        if (err) throw err;
+        var value = {RB:req.params.RB};
+        var query = connection.query('SELECT Notes FROM Choose WHERE RB=?',value.RB,function(err,ret){
+            if (err) throw err;
+            console.log(ret);
+            if (ret[0].Notes){
+                connection.release();
+                return res.redirect('/Rlist',{
+                    title:'没有抢到床位，请重新选择'
+                });
+            }
 
-			else{
-				connection.query('UPDATE Choose SET Notes="'+req.session.No+'" WHERE RB=?',value.RB,function(err,ret){
-					if (err) throw err;
-					console.log(ret);
-				});
-				connection.query('UPDATE Student SET RB=? WHERE Number="'+req.session.No+'"',value.RB,function(err,ret){
-					if (err) throw err;
-					console.log(ret);
-				});
-				connection.release();
+            else{
+                connection.query('UPDATE Choose SET Notes="'+req.session.No+'" WHERE RB=?',value.RB,function(err,ret){
+                    if (err) throw err;
+                    console.log(ret);
+                });
+                connection.query('UPDATE Student SET RB=? WHERE Number="'+req.session.No+'"',value.RB,function(err,ret){
+                    if (err) throw err;
+                    console.log(ret);
+                });
+                connection.release();
 
-				res.redriect('/');
-				//res.render('selected',{
-				//	title:'同学您已抢到床位'+value.RB+'床位不能更改'
-				//});
-			}
-		})
-		console.log(query.sql);
-	})	
+                res.redriect('/');
+                //res.render('selected',{
+                //  title:'同学您已抢到床位'+value.RB+'床位不能更改'
+                //});
+            }
+        })
+        console.log(query.sql);
+    })  
 
 })
 
 //add process_query报道流程查询（lishuo）
 app.get('/process',function(req,res){
-    app.models.pro_query.findOne({stu_id:'1601210613'},function(err,allinfo){
-        if (err){
-            console.log(err);
-        }
-        console.log(allinfo);
-        res.render('process',{
-            title:'报道流程查询',
-            process:allinfo,
-        });
-    })
+    // if("1601210613"!=null){
+    get_process(res,req.session.No,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    // app.models.pro_query.findOne({stu_id:'1601210613'},function(err,allinfo){
+    //     if (err){
+    //         console.log(err);
+    //     }
+    //     console.log(allinfo);
+    //     res.render('process',{
+    //         title:'报道流程查询',
+    //         process:allinfo,
+    //     });
+    // })
 })
 
-const urll="https://api.mysspku.com/index.php/V2/Ssbd/getinfo?stuid=req.session.No&token=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-https.get(urll,(res)=>{
-    var html=""
-    var obj=""
-    res.on("data",(data)=>{
-       html+=data
-    })
-    res.on("end",()=>{
-        obj=JSON.parse(html)
-    })
-}).on("error",(e)=>{
-    console.log(`获取数据失败: ${e.message}`)
-})
+function get_process(res,userID,Token){
+        //https://api.mysspku.com/index.php/V2/StudentInfo/getDetail?stuid=STUID&token=TOKEN
+        //设置get请求参数
+        var get_options={
+        host:'api.mysspku.com',
+        path:'/index.php/V2/Ssbd/getinfo?stuid='+userID+'&token='+Token,
+        method:'GET',
+        rejectUnauthorized: false,
+    };
+    //  console.log("https://api.mysspku.com/index.php/V2/StudentInfo/getDetail?stuid="+userId+"&token="+userInfoToken);
+    var get_req = https.request(get_options,function(response){
+        var responseText=[];
+        var size=0;
+        response.setEncoding('utf8');
+        response.on('data',function(data){
+            console.log(data);
+            responseText.push(data);
+            j = JSON.parse(data);
+            obj=j.data;
+            enrollcomplete=(obj.enrollcomplete=="1");
+            financecomplete=(obj.financecomplete=="1");
+            jwbcomplete=(obj.jwbcomplete=="1");
+            if(j.errcode==40001){
+                console.log("学生学号不存在。");
+            };
+            res.render('process',{
+                title:'报道流程查询',
+                obj:obj,
+                enroll:enrollcomplete,
+                finance:financecomplete,
+                jwb:jwbcomplete
+            });
+        // console.log("enroll======")
+        // console.log(enroll);
+        // console.log("objjjjjjjjjjjj")
+        // console.log(obj);
+        });
+
+    });
+
+    //对于前面设置请求和json数据进行发送
+    //get_req.write(post_str);
+    get_req.end();
+}
 
 app.listen(80,function(req,res){
-	console.log('app is running at port 3000');
+    console.log('app is running at port 3000');
 });
