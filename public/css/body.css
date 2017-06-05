@@ -1,0 +1,55 @@
+body {
+ 
+  margin: 0;
+  padding: 0;
+
+}
+.button{
+	height: 600px;
+	width: 100%;
+	float: left;
+	
+	
+}
+.btn {
+  background-color: rgba(0,0,0,0.4);
+  color: #FFF;
+  font-family: 'Amatic SC', cursive;
+  font-size: 26px;
+  padding-left: 50%;
+  padding: 30px;
+  width: 30%;
+  /*background-image:-webkit-linear-gradient(#FFD194,#BC1324);*/
+  text-align: center;
+margin-left: 50%;
+margin-top: 100px;
+  
+
+
+}
+.cover {
+
+  background: url("bgimage3.jpeg") no-repeat center bottom;
+  background-size:cover;
+  background-attachment:fixed;
+  height: 900px;
+  position: relative;
+ 
+  width: 100%;
+
+  
+}
+
+.putin{
+   background-color: rgba(0,0,0,0.2);
+  color: #FFF;
+  font-family: 'Amatic SC', cursive;
+  font-size: 46px;
+  padding-left: 50%;
+  padding: 30px;
+  width: 30%;
+  /*background-image:-webkit-linear-gradient(#FFD194,#BC1324);*/
+  text-align: center;
+margin-left: 50%;
+margin-top: 20px
+}

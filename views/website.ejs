@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Baker's Bike shop</title>
+    <link rel="stylesheet" type="text/css" href="css/body.css">
+    </head>
+<body>
+    <div class="cover">
+        <div class="button">
+	<% if (rb) { %>
+	<button class="btn" type="button">床位已选:<%= rb %></button>
+	<% } else { %>
+        <a href="/Rselect"><button class="btn" type="button">报道</button></a>
+	<% } %>
+        <a href="/login"><button class="btn"type="button">取号</button></a>
+        <a href="process"><button class="btn" type="button">流程</button></a>
+    </div>
+    </div>
+
+    
+    
+
+    </body>
+</html>
